@@ -1,37 +1,41 @@
-# Hello Python
+# Hello World Python Application
 
-A minimal Python "Hello World" project with CLI support.
-
-## Description
-
-This is a simple Python script that prints "Hello, World!" to the console. It supports an optional `--name` argument to personalize the greeting.
+A minimal Python CLI application that prints a greeting message.
 
 ## Usage
 
-### Basic usage:
+Run the application with Python 3:
+
 ```bash
 python3 main.py
 ```
-Output: `Hello, World!`
 
-### With a custom name:
+This will output:
+```
+Hello, World!
+```
+
+### Personalized Greeting
+
+You can personalize the greeting by providing a name:
+
 ```bash
 python3 main.py --name Alice
 ```
-Output: `Hello, Alice!`
+
+This will output:
+```
+Hello, Alice!
+```
 
 ## Requirements
 
 - Python 3.x (no additional dependencies required)
 
-## Testing
+## Help
 
-Run the unit tests with:
-```bash
-python3 test_main.py
-```
+To see all available options:
 
-Or if you have pytest installed:
 ```bash
-pytest test_main.py
+python3 main.py --help
 ```
