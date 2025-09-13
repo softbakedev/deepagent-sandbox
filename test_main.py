@@ -1,45 +1,56 @@
 #!/usr/bin/env python3
-"""
-Unit tests for the Hello World application.
-"""
 import unittest
 import sys
-import io
-from unittest.mock import patch
-from main import main
+from io import StringIO
+from main import get_greeting, main
 
-
-class TestHelloWorld(unittest.TestCase):
-    """Test cases for the Hello World application."""
-
-    def setUp(self):
-        """Set up test fixtures."""
-        self.held_output = io.StringIO()
-
-    def test_default_hello_world(self):
-        """Test default output without arguments."""
-        with patch('sys.stdout', new=self.held_output):
-            with patch('sys.argv', ['main.py']):
-                main()
-        output = self.held_output.getvalue()
-        self.assertEqual(output.strip(), "Hello, World!")
-
-    def test_personalized_greeting(self):
-        """Test personalized greeting with --name argument."""
-        with patch('sys.stdout', new=self.held_output):
-            with patch('sys.argv', ['main.py', '--name', 'Alice']):
-                main()
-        output = self.held_output.getvalue()
-        self.assertEqual(output.strip(), "Hello, Alice!")
-
-    def test_personalized_greeting_with_spaces(self):
-        """Test personalized greeting with name containing spaces."""
-        with patch('sys.stdout', new=self.held_output):
-            with patch('sys.argv', ['main.py', '--name', 'John Doe']):
-                main()
-        output = self.held_output.getvalue()
-        self.assertEqual(output.strip(), "Hello, John Doe!")
-
+class TestMain(unittest.TestCase):
+    
+    def test_get_greeting_default(self):
+        """Test default greeting without name."""
+        result = get_greeting()
+        self.assertEqual(result, "Hello, World!")
+    
+    def test_get_greeting_with_name(self):
+        """Test greeting with custom name."""
+        result = get_greeting("Alice")
+        self.assertEqual(result, "Hello, Alice!")
+    
+    def test_main_default(self):
+        """Test main function with default arguments."""
+        # Capture stdout
+        old_stdout = sys.stdout
+        sys.stdout = StringIO()
+        
+        # Mock sys.argv for default case
+        old_argv = sys.argv
+        sys.argv = ['main.py']
+        
+        try:
+            main()
+            output = sys.stdout.getvalue().strip()
+            self.assertEqual(output, "Hello, World!")
+        finally:
+            sys.stdout = old_stdout
+            sys.argv = old_argv
+    
+    def test_main_with_name(self):
+        """Test main function with name argument."""
+        # Capture stdout
+        old_stdout = sys.stdout
+        sys.stdout = StringIO()
+        
+        # Mock sys.argv for name case
+        old_argv = sys.argv
+        sys.argv = ['main.py', '--name', 'Bob']
+        
+        try:
+            main()
+            output = sys.stdout.getvalue().strip()
+            self.assertEqual(output, "Hello, Bob!")
+        finally:
+            sys.stdout = old_stdout
+            sys.argv = old_argv
 
 if __name__ == '__main__':
     unittest.main()
